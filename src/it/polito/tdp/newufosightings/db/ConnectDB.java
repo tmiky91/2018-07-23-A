@@ -8,7 +8,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public class ConnectDB {
 
-	private static final String jdbcURL = "jdbc:mysql://localhost/new_ufo_sightings";
+	private static final String jdbcURL = "jdbc:mysql://localhost/new_ufo_sightings?user=root";
 	private static HikariDataSource ds;
 
 	public static Connection getConnection() {
@@ -17,7 +17,7 @@ public class ConnectDB {
 			HikariConfig config = new HikariConfig();
 			config.setJdbcUrl(jdbcURL);
 			config.setUsername("root");
-			config.setPassword("");
+			//config.setPassword("");
 
 			// configurazione MySQL
 			config.addDataSourceProperty("cachePrepStmts", "true");

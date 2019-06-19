@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import it.polito.tdp.newufosightings.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -51,12 +52,36 @@ public class NewUfoSightingsController {
 
 	@FXML
 	void doCreaGrafo(ActionEvent event) {
+		String shape = cmbBoxForma.getValue();
+		String anno = txtAnno.getText();
+		if(shape!=null) {
+			if(anno!=null && !anno.isEmpty()) {
+				if(model.isDigit(anno)) {
+					txtResult.setText(model.creaGrafo(shape, anno));
+				}else {
+					showMessage("Errore: Inserisci un anno valido compreso fra 1910 e il 2014");
+				}
+			}else {
+				showMessage("Errore: Inserisci un anno compreso fra 1910 e il 2014");
+			}
+		}else {
+			showMessage("Errore: Seleziona una forma dal menù a tendina");
+		}
 
 	}
 
 	@FXML
 	void doSelezionaAnno(ActionEvent event) {
-
+		String anno = txtAnno.getText();
+		if(anno!=null && !anno.isEmpty()) {
+			if(model.isDigit(anno)) {
+				cmbBoxForma.getItems().addAll(model.getShapes(anno));
+			}else {
+				showMessage("Errore: Inserisci un anno valido compreso fra 1910 e il 2014");
+			}
+		}else {
+			showMessage("Errore: Inserisci un anno compreso fra 1910 e il 2014");
+		}
 	}
 
 	@FXML
@@ -79,6 +104,11 @@ public class NewUfoSightingsController {
 
 	public void setModel(Model model) {
 		this.model = model;
-
+	}
+	
+	private void showMessage(String message) {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setContentText(message);
+		alert.show();
 	}
 }
